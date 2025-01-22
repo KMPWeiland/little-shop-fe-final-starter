@@ -108,6 +108,11 @@ h3 {
   font-size: 1.3em;
 }
 
+/* .coupon h3 {
+  display: block;  
+  margin-bottom: 8px;  
+} */
+
 /* ADD MERCHANT */
 .add-new-button {
   background-color: var(--green);
@@ -132,7 +137,7 @@ h3 {
 }
 
 /* MERCHANT + ITEM CARDS */
-.merchant, .item {
+.merchant, .item, .coupon {
   align-items: center;
   background-color: #fff;
   border-radius: 8px;
@@ -143,6 +148,17 @@ h3 {
   padding: 20px;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.coupon {
+  border: 1px dashed #ddd;   
+}
+
+.coupons-view {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
 
 .merchant:hover,
 .item:hover {
@@ -203,6 +219,15 @@ h3 {
 
 .fail {
   color: var(--red);
+}
+
+/* Highlight styles */
+.coupon .highlight {
+  color: #118AB2;  
+  /* word-wrap: break-word;
+  word-break: break-word;
+  display: inline;
+  display: block;  */
 }
 
 /* HIDDEN */

@@ -23,6 +23,7 @@ merchantsView.addEventListener('click', (event) => {
 
 merchantsNavButton.addEventListener('click', showMerchantsView)
 itemsNavButton.addEventListener('click', showItemsView)
+// itemsNavButton.addEventListener('click', showCouponsView)
 
 addNewButton.addEventListener('click', () => {
   hide([addNewButton])
@@ -165,6 +166,14 @@ function showMerchantItemsView(id, items) {
   displayItems(items)
 }
 
+// function showMerchantCouponsView() {
+//     showingText.innerText = `All Coupons for Merchant #${id}`
+//     show([couponsView])
+//     hide([merchantsView, addNewButton, itemsView])
+//     addRemoveActiveNav(itemsNavButton, merchantsNavButton)
+//   }
+  
+
 // Functions that add data to the DOM
 function displayItems(items) {
   itemsView.innerHTML = ''
@@ -236,21 +245,41 @@ function getMerchantCoupons(event) {
   let merchantId = event.target.closest("article").id.split('-')[1]
   console.log("Merchant ID:", merchantId)
 
-  fetchData(`merchants/${merchantId}`)
+  fetchData(`merchants/${merchantId}/coupons`)
   .then(couponData => {
-    console.log("Coupon data from fetch:", couponData)
-    displayMerchantCoupons(couponData);
+    console.log("Coupon data from fetch:", couponData);
+    displayMerchantCoupons(couponData.data, merchantId);
   })
 }
 
-function displayMerchantCoupons(coupons) {
+function displayMerchantCoupons(coupons, merchantId) {
+  showingText.innerText = `All Coupons for Merchant #${merchantId}`
   show([couponsView])
-  hide([merchantsView, itemsView])
+  hide([merchantsView, addNewButton,  itemsView])
+  // showMerchantCouponsView(id, coupons) 
 
-  couponsView.innerHTML = `
-    <p>Coupon data will go here.</p>
-  `
+  couponsView.innerHTML = ``;
+
+  coupons.forEach((coupon) => {
+  console.log('coupon: ', coupon);
+
+  const code = coupon.attributes.code
+  const dollarOff = coupon.attributes.dollar_off || "N/A";
+  const percentOff = coupon.attributes.percent_off || "N/A";
+  const status = coupon.attributes.active ? "Active" : "Inactive";
+
+  couponsView.innerHTML += `
+  <article class= "coupon" id= "coupon-${coupon.id}">
+    <h3>Code:<span class="highlight"> ${code}</span></h3>
+        <p>Dollar Off: ${dollarOff}</p>
+        <p>Percent Off: ${percentOff}</p>
+        <p>Status: ${status}</p>
+      </article>
+    `
+  })
 }
+
+
 
 //Helper Functions
 function show(elements) {
